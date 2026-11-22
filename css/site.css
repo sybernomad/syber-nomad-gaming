@@ -266,6 +266,7 @@ a:focus-visible,
 }
 
 .card::before {
+  z-index: 2;
   top: 0.4rem;
   left: 0.4rem;
   border-width: 1px 0 0 1px;
@@ -279,6 +280,41 @@ a:focus-visible,
 
 .card-feature {
   background: var(--bg-lift);
+  box-shadow: inset 0 2px 0 var(--copper);
+}
+
+/* Game preview: a still from the game's own title screen, bled to the card edges. */
+.card-shot {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin: -1.2rem -1.25rem 1.1rem;
+  overflow: hidden;
+  background: var(--bg-deep);
+  border-bottom: 1px solid var(--line);
+}
+
+.card-shot img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.82) brightness(0.9);
+  transform: scale(1.001);
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1), filter 300ms ease;
+}
+
+.card-shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 62%, rgba(24, 23, 20, 0.55) 100%);
+}
+
+.card-feature .card-shot {
+  margin-top: -1.2rem;
   box-shadow: inset 0 2px 0 var(--copper);
 }
 
@@ -356,6 +392,11 @@ a:focus-visible,
     border-color: rgba(196, 137, 106, 0.7);
     background: var(--card-hover);
     transform: translateY(-2px);
+  }
+
+  .card:hover .card-shot img {
+    transform: scale(1.05);
+    filter: saturate(1.05) brightness(1);
   }
 
   .card-feature:hover .go {
@@ -470,6 +511,20 @@ a:focus-visible,
     flex: 1;
   }
 
+  .card-feature .card-shot {
+    flex: 0 0 42%;
+    align-self: stretch;
+    aspect-ratio: auto;
+    min-height: 15rem;
+    margin: -1.5rem 0 -1.4rem -1.6rem;
+    border-bottom: 0;
+    border-right: 1px solid var(--line);
+  }
+
+  .card-feature .card-shot::after {
+    background: linear-gradient(to right, transparent 60%, rgba(27, 26, 23, 0.6) 100%);
+  }
+
   .card-feature .card-foot {
     margin-top: 0;
     padding-top: 0;
@@ -497,6 +552,12 @@ a:focus-visible,
   }
 
   .card:hover {
+    transform: none;
+  }
+
+  .card-shot img,
+  .card:hover .card-shot img {
+    transition: none;
     transform: none;
   }
 }
